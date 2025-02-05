@@ -28,6 +28,32 @@ This is a simple Flask application that provides an API for managing todo lists 
 
 - Open your web browser and go to [http://localhost:5000](http://localhost:5000) to view the Swagger documentation and interact with the API using the Swagger UI.
 
+6. Optional:
+- if you want to deploy the script and develop it further 
+
+  ```shell
+  # Create a virtual environment (optional but recommended)
+  python -m venv venv
+
+   # Activate the virtual environment:
+   # On macOS/Linux:
+   source venv/bin/activate
+
+   # On Windows:
+   venv\Scripts\activate
+
+   # Upgrade pip (just in case)
+   pip install --upgrade pip
+
+   # Install dependencies
+   pip install -r requirements.txt
+  
+   # if you want to run the db docker-compose is requiered
+   docker compose up -d
+   # then enter/change credentials to connect to db in your script 
+
+
+
 ## API Endpoints
 
 - **GET /todo-list/{list_id}**: Retrieve a specific todo list by its ID.
