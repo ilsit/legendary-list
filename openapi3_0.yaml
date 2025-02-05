@@ -1,0 +1,250 @@
+openapi: "3.0.1"
+info:
+  version: 1.0.0
+  title: Todo-list
+  license:
+    name: MIT
+  contact:
+    email: "iliasitouni@icloud.com"
+servers:
+  - url: "http://api.todo-list.com/v1"
+paths:
+  /todo-list:
+    get:
+      summary: Returns all todo-lists
+      responses:
+        "200":
+          description: Returns a list of all todo-lists
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/List"
+
+    post:
+      summary: Creates a new todo-list
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Name of the new todo-list
+              required:
+                - name
+      responses:
+        "200":
+          description: Returns the newly created todo-list
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/List"
+        "400":
+          description: Invalid request
+
+  /todo-list/{list_id}:
+    get:
+      summary: Returns a specific todo-list
+      parameters:
+        - name: list_id
+          in: path
+          required: true
+          description: ID of the requested todo-list
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Returns the requested todo-list
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/List"
+        "404":
+          description: List not found
+
+    delete:
+      summary: Deletes a specific todo-list and all its items
+      parameters:
+        - name: list_id
+          in: path
+          required: true
+          description: ID of the todo-list to delete
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    example: "success"
+        "404":
+          description: List not found
+
+  /todo-list/{list_id}/entries:
+    get:
+      summary: Returns all entries of a todo-list
+      parameters:
+        - name: list_id
+          in: path
+          required: true
+          description: ID of the requested todo-list
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Returns all entries of the list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Item"
+        "404":
+          description: List not found
+
+  /todo-list/{list_id}/entry:
+    post:
+      summary: Adds a new entry to a todo-list
+      parameters:
+        - name: list_id
+          in: path
+          required: true
+          description: ID of the todo-list
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+              required:
+                - name
+      responses:
+        "200":
+          description: Returns the updated todo-list
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/List"
+        "400":
+          description: Invalid request
+        "404":
+          description: List not found
+
+  /todo-list/{list_id}/entry/{entry_id}:
+    put:
+      summary: Updates an entry in a todo-list
+      parameters:
+        - name: list_id
+          in: path
+          required: true
+          description: ID of the todo-list
+          schema:
+            type: string
+        - name: entry_id
+          in: path
+          required: true
+          description: ID of the entry
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+      responses:
+        "200":
+          description: Returns the updated entry
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Item"
+        "400":
+          description: Invalid request
+        "404":
+          description: List or entry not found
+
+    delete:
+      summary: Deletes an entry from a todo-list
+      parameters:
+        - name: list_id
+          in: path
+          required: true
+          description: ID of the todo-list
+          schema:
+            type: string
+        - name: entry_id
+          in: path
+          required: true
+          description: ID of the entry
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  msg:
+                    type: string
+                    example: "success"
+        "404":
+          description: Entry not found
+
+components:
+  schemas:
+    List:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        entries:
+          type: array
+          items:
+            $ref: "#/components/schemas/Item"
+      example:
+        id: "1"
+        name: "Shopping List"
+        entries:
+          - id: "1"
+            name: "Milk"
+            description: "Buy 2 liters of milk"
+          - id: "2"
+            name: "Eggs"
+            description: "Buy a dozen eggs"
+
+    Item:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+      example:
+        id: "1"
+        name: "Milk"
+        description: "Buy 2 liters of milk"
