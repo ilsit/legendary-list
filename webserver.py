@@ -3,18 +3,14 @@ import yaml
 from flask import Flask, request, jsonify, abort, render_template
 from flask_sqlalchemy import SQLAlchemy
 
-# -------------------------------------------------------------------------
 # Flask & SQLAlchemy Setup
-# -------------------------------------------------------------------------
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///todo.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 
-# -------------------------------------------------------------------------
 # Database Models
-# -------------------------------------------------------------------------
 class TodoList(db.Model):
     __tablename__ = 'todo_list'
     id = db.Column(db.String(36), primary_key=True)  # UUID as string (36 characters)
@@ -46,9 +42,7 @@ class Item(db.Model):
         }
 
 
-# -------------------------------------------------------------------------
 # CORS Header (for Swagger Editor preview)
-# -------------------------------------------------------------------------
 @app.after_request
 def apply_cors_header(response):
     response.headers['Access-Control-Allow-Origin'] = '*'
@@ -57,9 +51,8 @@ def apply_cors_header(response):
     return response
 
 
-# -------------------------------------------------------------------------
 # Routes
-# -------------------------------------------------------------------------
+
 # Render the OpenAPI specification page
 @app.route('/')
 def index():
@@ -144,9 +137,7 @@ def get_all_lists():
     return jsonify([lst.to_dict() for lst in all_lists])
 
 
-# -------------------------------------------------------------------------
-# Database Initialization (with Sample Data)
-# -------------------------------------------------------------------------
+# database with the provided data
 def init_db():
     print("Initializing database and creating tables...")
     with app.app_context():
@@ -174,9 +165,7 @@ def init_db():
             print("Sample data inserted.")
 
 
-# -------------------------------------------------------------------------
-# Main Entry Point
-# -------------------------------------------------------------------------
+# main
 if __name__ == '__main__':
     init_db()  # Ensure database is initialized
     app.run(host='0.0.0.0', port=5000, use_reloader=False)
