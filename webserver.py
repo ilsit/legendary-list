@@ -131,7 +131,7 @@ def update_item(list_id, item_id):
 
 
 # GET all todo-lists (with items embedded)
-@app.route('/lists', methods=['GET'])
+@app.route('/todo-list', methods=['GET'])
 def get_all_lists():
     all_lists = TodoList.query.all()
     return jsonify([lst.to_dict() for lst in all_lists])
