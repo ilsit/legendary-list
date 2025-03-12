@@ -2,7 +2,7 @@
 
 This is a simple Flask application that provides an API for managing todo lists and todo entries. It demonstrates how to represent todo lists and entries using Python data structures and implement REST API endpoints with Flask. It also uses SQLLite to save the data so it will not be gone after a server restart
 
-The app is also deployed on https://api.sitouni.de so you can make actual requests to the live server.
+The app is also deployed on a live server so you can make actual requests to the live server.
 
 ## Requirements
 
