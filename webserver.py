@@ -56,7 +56,7 @@ def apply_cors_header(response):
 # Render the OpenAPI specification page
 @app.route('/')
 def index():
-    with open('openapi3_0.yaml', 'r') as file:
+    with open('openapi3_1.yaml', 'r') as file:
         spec = yaml.safe_load(file)
     return render_template('index.html', spec=spec)
 
